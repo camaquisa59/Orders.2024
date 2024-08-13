@@ -1,0 +1,47 @@
+﻿@page "/categories"
+<h3>Categorias </h3>
+<hr />
+<div class="mb-3">
+    <a class="btn btn-primary" href="/categories/create">Nueva Categoria</a>
+
+</div>
+
+
+
+<GenericList Mylist="ListaCategorias">
+    @*  <Loading>
+    <p>Cargando...</p>
+
+    </Loading> *@
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in ListaCategorias!)
+                {
+                    <tr>
+                        <td>@p.Name</td>
+                        <td>
+                            <a href="/categories/edit/@p.Id" class="btn btn-warning">Editar </a>
+                            <button @onclick="@(() => DeleteAsync(p))" class="btn btn-danger">Borrar</button>
+                        </td>
+                    </tr>
+
+                }
+
+
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+
+
+
