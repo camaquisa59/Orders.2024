@@ -1,8 +1,7 @@
 ﻿@page "/categories/create"
 
 <h3>Crear País</h3>
-<CategoryForm @ref="categoryform" category="category" OnValidSubmit="CreateAsync" 
-    ReturnAction="Return">
 
+<FormWithName @ref="categoryform" Label="País: " Model="category" OnValidSubmit="CreateAsync" ReturnAction="Return">
 
-</CategoryForm>
+</FormWithName>

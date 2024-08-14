@@ -7,9 +7,5 @@
 }
 else
 {
- <CountryForm @ref="countryForm" country="country" OnValidSubmit="EditAsync"
-             ReturnAction="Return">
-
-
-</CountryForm>   
+ <FormWithName @ref="countryForm" Label="País:" Model="country" OnValidSubmit="EditAsync" ReturnAction="Return" />
 }

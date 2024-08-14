@@ -1,33 +1,38 @@
 ﻿using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Orders.FrontEnd.Repositories;
+using Orders.FrontEnd.Shared;
 using Orders.Shared.Entities;
+using Orders.Shared.Interfaces;
 
 namespace Orders.FrontEnd.Pages.Countries
 {
     public partial class CountryCreate
-    {
-        private CountryForm? countryform;
+
+    {  
         private Country country = new();
-        [Inject] private IRepository repository { get; set; } = null!;
+        private FormWithName<Country>? countryform;
 
-        [Inject] private SweetAlertService alertService { get; set; } = null!;
+      
+        [Inject] private IRepository Repository { get; set; } = null!;
 
-        [Inject] private NavigationManager navigationManager { get; set; } = null!;
+        [Inject] private SweetAlertService AlertService { get; set; } = null!;
+
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
 
         private async Task CreateAsync()
         {
-            var responseHttp = await repository.PostAsync("/api/countries", country);
+            var responseHttp = await Repository.PostAsync("/api/countries", country);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsyn();
-                await alertService.FireAsync("Error: ", message);
+                await AlertService.FireAsync("Error: ", message);
                 return;
             }
 
             Return();
-            var toast = alertService.Mixin(new SweetAlertOptions
+            var toast = AlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
@@ -43,7 +48,7 @@ namespace Orders.FrontEnd.Pages.Countries
         private void Return()
         {
             countryform!.FormPostSuccessfully = true;
-            navigationManager.NavigateTo("/countries");
+            NavigationManager.NavigateTo("/countries");
 
         }
     }

@@ -1,16 +1,20 @@
 ﻿using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components;
 using Orders.Shared.Entities;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Components.Routing;
+using Orders.Shared.Interfaces;
 
-namespace Orders.FrontEnd.Pages.Categories
+namespace Orders.FrontEnd.Shared
 {
-    public partial class CategoryForm
+    public partial class FormWithName<TModel> where TModel : IEntityWithName
     {
         private EditContext _editContext = null!;
 
-        [EditorRequired, Parameter] public Category category { get; set; } = null!;
+        [EditorRequired, Parameter] public TModel Model { get; set; } = default!;
+
+        [EditorRequired, Parameter] public string Label { get; set; } = null!;
 
         [EditorRequired, Parameter] public EventCallback OnValidSubmit { get; set; }
 
@@ -23,7 +27,7 @@ namespace Orders.FrontEnd.Pages.Categories
 
         protected override void OnInitialized()
         {
-            _editContext = new(category);
+            _editContext = new(Model);
         }
 
 
@@ -52,5 +56,6 @@ namespace Orders.FrontEnd.Pages.Categories
             context.PreventNavigation();
 
         }
+
     }
 }
