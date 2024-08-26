@@ -1,5 +1,6 @@
 ﻿using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitOfWork.interfaces;
+using Orders.Shared.DTO;
 using Orders.Shared.Responses;
 
 namespace Orders.Backend.UnitOfWork.Implements
@@ -24,7 +25,13 @@ namespace Orders.Backend.UnitOfWork.Implements
         public virtual async Task<ActionResponse<T>> GetAsync(int id) => await _repository.GetAsync(id);
        
         public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync() => await _repository.GetAsync();
-     
+
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination) => await _repository.GetAsync(pagination);
+       
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _repository.GetTotalPagesAsync(pagination);    
+        
+
         public virtual async Task<ActionResponse<T>> UpdateAsync(T entity) => await _repository.UpdateAsync(entity);    
        
     }

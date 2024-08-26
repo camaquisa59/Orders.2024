@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Orders.Backend.Data;
+using Orders.Backend.Helpers;
 using Orders.Backend.Repositories.Interfaces;
+using Orders.Shared.DTO;
 using Orders.Shared.Responses;
 
 namespace Orders.Backend.Repositories.Implements
@@ -104,6 +106,28 @@ namespace Orders.Backend.Repositories.Implements
             {
                 WasSuceess = true,
                 Resultado = await _entity.ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<IEnumerable<T>>> GetAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+            return new ActionResponse<IEnumerable<T>>
+            {
+                WasSuceess = true,
+                Resultado = await queryable.Paginate(pagination).ToListAsync()
+            };
+        }
+
+        public virtual async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
+        {
+            var queryable = _entity.AsQueryable();
+            double count =await queryable.CountAsync();
+            int totalPages = (int)Math.Ceiling(count/pagination.RecordsNumber);
+            return new ActionResponse<int>
+            {
+                WasSuceess = true,
+                Resultado = totalPages
             };
         }
 
